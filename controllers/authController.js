@@ -33,7 +33,7 @@ const registerController = async (req, res) => {
       newUser,
     });
   } catch (error) {
-    console.log(`registerController error: ${registerController}`);
+    console.log(`registerController error: ${error}`);
     res.status(500).send({
       success: false,
       message: "Error in Register Controller",
@@ -42,4 +42,42 @@ const registerController = async (req, res) => {
   }
 };
 
-export { registerController };
+const loginController = async (req, res) => {
+  try {
+    const { userName, email, password } = req.body;
+    // performing validation
+    if (!password && (!userName || !email)) {
+      return res.status(500).send({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+    // Checking user in database
+    const user = await User.findOne({ $or: [{ userName }, { email }] });
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "Username/Email does not exists",
+      });
+    }
+
+    return res.status(200).send({
+      success: true,
+      message: "Login successful",
+      user,
+    });
+
+    console.log(
+      `userName: ${userName} - email: ${email} - password: ${password}`
+    );
+  } catch (error) {
+    console.log(`loginController error: ${error}`);
+    res.status(500).send({
+      success: false,
+      message: "Error in login Controller",
+      error,
+    });
+  }
+};
+
+export { registerController, loginController };
