@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
     },
     address: {
-      type: Array,
+      type: String,
     },
     phone: {
       type: String,
