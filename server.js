@@ -22,8 +22,10 @@ app.use(morgan("dev"));
 
 // ==================== Importing Routes
 import testRoutes from "./routes/testRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 app.use("/api/v1/test", testRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 const PORT = process.env.PORT || 8080;
 
