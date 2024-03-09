@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "dummyImage",
     },
+    answer: {
+      type: String,
+      required: [true, "Secret question required"],
+    },
   },
   { timestamps: true }
 );

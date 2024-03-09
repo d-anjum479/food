@@ -4,9 +4,9 @@ import jwt from "jsonwebtoken";
 
 const registerController = async (req, res) => {
   try {
-    const { userName, email, password, address, phone } = req.body;
+    const { userName, email, password, address, phone, answer } = req.body;
     // performing validation
-    if (!userName || !email || !password || !address || !phone) {
+    if (!userName || !email || !password || !address || !phone || !answer) {
       return res.status(500).send({
         success: false,
         message: "All fields are required",
@@ -30,6 +30,7 @@ const registerController = async (req, res) => {
       password: hashedPassword,
       address,
       phone,
+      answer,
     });
 
     res.status(201).send({

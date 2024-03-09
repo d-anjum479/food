@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getUserController,
+  resetPassController,
   updatePassController,
   updateUserController,
 } from "../controllers/userController.js";
@@ -16,5 +17,7 @@ router.put("/update-user", authMiddleware, updateUserController);
 
 // Update Password || PUT
 router.put("/update-password", authMiddleware, updatePassController);
+// Reset Password || PUT
+router.put("/reset-password", authMiddleware, resetPassController);
 
 export default router;

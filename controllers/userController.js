@@ -84,5 +84,44 @@ const updatePassController = async (req, res) => {
       .send({ success: false, message: "updateUserController - Error", error });
   }
 };
+const resetPassController = async (req, res) => {
+  try {
+    const { answer, newPassword } = req.body;
+    if (!answer || !newPassword) {
+      return res.status(500).send({
+        success: false,
+        message: "Answer and New Password is required",
+      });
+    }
+    const user = await User.findById({ _id: req.body.id });
+    // validation
+    if (!user) {
+      res.status(404).send({ success: false, message: "User not found" });
+    }
 
-export { getUserController, updateUserController, updatePassController };
+    if (answer !== user.answer) {
+      res.status(500).send({ success: false, message: "Incorrect Answer" });
+    }
+
+    const saltRound = bcryptjs.genSaltSync(10);
+    const hashedPass = await bcryptjs.hash(newPassword, saltRound);
+    if (hashedPass) user.password = hashedPass;
+
+    await user.save();
+
+    res
+      .status(200)
+      .send({ success: true, message: "Password reset successfully" });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .send({ success: false, message: "resetPassController - Error", error });
+  }
+};
+export {
+  getUserController,
+  updateUserController,
+  updatePassController,
+  resetPassController,
+};
