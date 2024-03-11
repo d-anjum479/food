@@ -17,7 +17,7 @@ const registerController = async (req, res) => {
     if (isUserExists) {
       return res.status(500).send({
         success: false,
-        message: "Username/Email must already exists",
+        message: "Username/Email already exists",
       });
     }
     // hashing password

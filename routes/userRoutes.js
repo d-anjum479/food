@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  deleteUserController,
   getUserController,
   resetPassController,
   updatePassController,
@@ -15,9 +16,11 @@ router.get("/get-user", authMiddleware, getUserController);
 // Update User Phone & Address || PUT
 router.put("/update-user", authMiddleware, updateUserController);
 
-// Update Password || PUT
+// Update User Password || PUT
 router.put("/update-password", authMiddleware, updatePassController);
-// Reset Password || PUT
+// Reset User Password || PUT
 router.put("/reset-password", authMiddleware, resetPassController);
+// Delete User || DELETE
+router.delete("/delete-user/:id", authMiddleware, deleteUserController);
 
 export default router;

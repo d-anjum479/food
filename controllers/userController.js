@@ -119,9 +119,26 @@ const resetPassController = async (req, res) => {
       .send({ success: false, message: "resetPassController - Error", error });
   }
 };
+const deleteUserController = async (req, res) => {
+  try {
+    const isDeleted = await User.findByIdAndDelete(req.params.id);
+    return res.status(200).send({
+      success: true,
+      message: "Profile has been deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while deleting the user profile",
+      error,
+    });
+  }
+};
 export {
   getUserController,
   updateUserController,
   updatePassController,
   resetPassController,
+  deleteUserController,
 };
