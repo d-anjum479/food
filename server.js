@@ -24,10 +24,12 @@ app.use(morgan("dev"));
 import testRoutes from "./routes/testRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import restaurantRoutes from "./routes/restaurantRoutes.js";
 
 app.use("/api/v1/test", testRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/restaurant", restaurantRoutes);
 
 const PORT = process.env.PORT || 8080;
 
