@@ -6,11 +6,13 @@ const getUserController = async (req, res) => {
     const user = await User.findById({ _id: req.body.id });
     // validation
     if (!user) {
-      res.status(404).send({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
     }
     // hide password
     user.password = undefined;
-    res.status(200).send({
+    return res.status(200).send({
       success: true,
       message: "User data got successfully",
       user,
@@ -33,7 +35,9 @@ const updateUserController = async (req, res) => {
     const user = await User.findById({ _id: req.body.id });
     // validation
     if (!user) {
-      res.status(404).send({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
     }
 
     if (address) user.address = address;
@@ -41,7 +45,9 @@ const updateUserController = async (req, res) => {
 
     await user.save();
 
-    res.status(200).send({ success: true, message: "User details updated" });
+    return res
+      .status(200)
+      .send({ success: true, message: "User details updated" });
   } catch (error) {
     console.log(error);
     res
@@ -60,12 +66,14 @@ const updatePassController = async (req, res) => {
     const user = await User.findById({ _id: req.body.id });
     // validation
     if (!user) {
-      res.status(404).send({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
     }
 
     const isMatched = await bcryptjs.compare(oldPassword, user.password);
     if (!isMatched) {
-      res
+      return res
         .status(500)
         .send({ success: false, message: "Current Password is incorrect" });
     }
@@ -76,7 +84,7 @@ const updatePassController = async (req, res) => {
 
     await user.save();
 
-    res.status(200).send({ success: true, message: "Password updated" });
+    return res.status(200).send({ success: true, message: "Password updated" });
   } catch (error) {
     console.log(error);
     res
@@ -96,11 +104,15 @@ const resetPassController = async (req, res) => {
     const user = await User.findById({ _id: req.body.id });
     // validation
     if (!user) {
-      res.status(404).send({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
     }
 
     if (answer !== user.answer) {
-      res.status(500).send({ success: false, message: "Incorrect Answer" });
+      return res
+        .status(500)
+        .send({ success: false, message: "Incorrect Answer" });
     }
 
     const saltRound = bcryptjs.genSaltSync(10);
@@ -109,7 +121,7 @@ const resetPassController = async (req, res) => {
 
     await user.save();
 
-    res
+    return res
       .status(200)
       .send({ success: true, message: "Password reset successfully" });
   } catch (error) {

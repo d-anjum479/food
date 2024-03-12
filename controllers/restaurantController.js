@@ -39,7 +39,7 @@ const createRestaurantController = async (req, res) => {
       coordinates,
     });
     const restaurant = await newRestaurant.save();
-    res
+    return res
       .status(201)
       .send({ success: true, message: "New restaurant added", restaurant });
   } catch (error) {
@@ -53,14 +53,14 @@ const getAllRestaurantController = async (req, res) => {
   try {
     const restaurants = await Restaurant.find({});
     if (!restaurants) {
-      res.status(500).send({
+      return res.status(500).send({
         success: false,
         message: "No restaurants found",
         error,
       });
     }
 
-    res.status(200).send({
+    return res.status(200).send({
       success: true,
       totalCount: restaurants.length,
       restaurants,
@@ -78,7 +78,7 @@ const getRestaurantByIdController = async (req, res) => {
   try {
     const restaurantId = req.params.id;
     if (!restaurantId) {
-      res.status(404).send({
+      return res.status(404).send({
         success: false,
         message: "Please provide restaurant id",
         error,
@@ -87,14 +87,14 @@ const getRestaurantByIdController = async (req, res) => {
 
     const restaurant = await Restaurant.findById({ _id: req.params.id });
     if (!restaurant) {
-      res.status(500).send({
+      return res.status(500).send({
         success: false,
         message: "No restaurant found",
         error,
       });
     }
 
-    res.status(200).send({
+    return res.status(200).send({
       success: true,
       restaurant,
     });
@@ -111,7 +111,7 @@ const deleteRestaurantController = async (req, res) => {
   try {
     const restaurantId = req.params.id;
     if (!restaurantId) {
-      res.status(404).send({
+      return res.status(404).send({
         success: false,
         message: "Please provide restaurant id",
         error,
@@ -122,14 +122,14 @@ const deleteRestaurantController = async (req, res) => {
       _id: req.params.id,
     });
     if (!restaurant) {
-      res.status(500).send({
+      return res.status(500).send({
         success: false,
         message: "No restaurant found",
         error,
       });
     }
 
-    res.status(200).send({
+    return res.status(200).send({
       success: true,
       message: "Restaurant deleted successfully",
     });

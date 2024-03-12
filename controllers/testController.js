@@ -1,6 +1,6 @@
 const testController = (req, res) => {
   try {
-    res.status(200).send({
+    return res.status(200).send({
       success: true,
       message: "Test Output Success",
     });
